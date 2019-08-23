@@ -1,0 +1,22 @@
+sudo: required 
+servcies: 
+    - docker 
+
+before_install: 
+    - docker build -t kailiang1/react-test -f ./client/Dockerfile.dev . 
+
+script:
+    - docker run -e CI=true kailiang1/react-test npm run test
+
+after_success: 
+    - docker build -t kailiang1/multi-client ./client
+    - docker build -t kailiang1/multi-nginx ./nginx 
+    - docker build -t kailiang1/multi-server ./server 
+    - docker build -t kailiang1/multi-worker ./worker 
+    # pubish it to docker hub 
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
+    - docker push kailiang1/multi-client
+    - docker push kailiang1/multi-nginx
+    - docker push kailiang1/multi-server
+    - docker push kailiang1/multi-worker
+
