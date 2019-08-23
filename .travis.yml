@@ -3,20 +3,20 @@ servcies:
     - docker 
 
 before_install: 
-    - docker build -t kailiang1/react-test -f ./client/Dockerfile.dev . 
+    - docker build -t kliang1/react-test -f ./client/Dockerfile.dev . 
 
 script:
-    - docker run -e CI=true kailiang1/react-test npm run test
+    - docker run -e CI=true kliang1/react-test npm run test
 
 after_success: 
-    - docker build -t kailiang1/maven-project:multi-client ./client
-    - docker build -t kailiang1/maven-project:multi-nginx ./nginx 
-    - docker build -t kailiang1/maven-project:multi-server ./server 
-    - docker build -t kailiang1/maven-project:multi-worker ./worker 
+    - docker build -t kliang1/maven-project:multi-client ./client
+    - docker build -t kliang1/maven-project:multi-nginx ./nginx 
+    - docker build -t kliang1/maven-project:multi-server ./server 
+    - docker build -t kliang1/maven-project:multi-worker ./worker 
     # pubish it to docker hub 
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
-    - docker push kailiang1/maven-project:multi-client
-    - docker push kailiang1/maven-project:multi-nginx
-    - docker push kailiang1/maven-project:multi-server
-    - docker push kailiang1/maven-project:multi-worker
+    - docker push kliang1/maven-project:multi-client
+    - docker push kliang1/maven-project:multi-nginx
+    - docker push kliang1/maven-project:multi-server
+    - docker push kliang1/maven-project:multi-worker
 
