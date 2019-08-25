@@ -3,7 +3,34 @@
     "containerDefinitions": [
     {
         "name": "client", 
-        "image": "kliang1/multi-client", 
+        "image": "kliang1/maven-project:multi-client", 
+        "hostname": "client", 
+        "essential": false 
+    }, 
+    {
+        "name": "server", 
+        "image": "kliang1/maven-project:multi-server", 
+        "hostname": "api", 
+        "essential": false 
+    }, 
+    {
+        "name": "worker", 
+        "image": "kliang1/maven-project:multi-worker", 
+        "hostname": "worker", 
+        "essential": false 
+    }, 
+    {
+        "name": "ngnix", 
+        "image": "kliang1/maven-project:multi-nginx", 
+        "hostname": "ngnix", 
+        "essential": true, 
+        "portMappings": [
+          {
+            "hostport": 80, 
+            "containerPort": 80
+          }
+        ], 
+        "links": ["client", "server"]
     }
     ]
 }
